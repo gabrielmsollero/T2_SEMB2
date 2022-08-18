@@ -1,0 +1,201 @@
+[
+    {
+        "id": "72216f1923961d4c",
+        "type": "tab",
+        "label": "T2_SEMB2_Client",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c52a41424a91e3e4",
+        "type": "inject",
+        "z": "72216f1923961d4c",
+        "name": "Get Sensor Data Trigger",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 230,
+        "y": 140,
+        "wires": [
+            [
+                "ace2e1489ca7016b"
+            ]
+        ]
+    },
+    {
+        "id": "ace2e1489ca7016b",
+        "type": "http request",
+        "z": "72216f1923961d4c",
+        "name": "Get Sensor Data",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://3.93.212.178:80/user",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 470,
+        "y": 140,
+        "wires": [
+            [
+                "d4d4a7fccc7e892f"
+            ]
+        ]
+    },
+    {
+        "id": "73dc9a034dedd70b",
+        "type": "ui_switch",
+        "z": "72216f1923961d4c",
+        "name": "",
+        "label": "Irrigator Command",
+        "tooltip": "",
+        "group": "5e2d5ea727f6da25",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "0",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "1",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "x": 210,
+        "y": 200,
+        "wires": [
+            [
+                "5cd5512aa10cb321"
+            ]
+        ]
+    },
+    {
+        "id": "5cd5512aa10cb321",
+        "type": "http request",
+        "z": "72216f1923961d4c",
+        "name": "Post Irrigator Status Command",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://3.93.212.178:80/user",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 870,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d4d4a7fccc7e892f",
+        "type": "change",
+        "z": "72216f1923961d4c",
+        "name": "Set Chart Label",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Irrigation Sensor Reading",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 680,
+        "y": 140,
+        "wires": [
+            [
+                "5381ca5287245c33"
+            ]
+        ]
+    },
+    {
+        "id": "5381ca5287245c33",
+        "type": "ui_chart",
+        "z": "72216f1923961d4c",
+        "name": "Sensor Status Chart",
+        "group": "5e2d5ea727f6da25",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "label": "Irrigation Sensor Data Over Time",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "-10",
+        "ymax": "1024",
+        "removeOlder": 1,
+        "removeOlderPoints": "100",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#097479",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "x": 900,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5e2d5ea727f6da25",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "b0b17de7e3a16000",
+        "order": 1,
+        "disp": true,
+        "width": "10",
+        "collapse": false
+    },
+    {
+        "id": "b0b17de7e3a16000",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]

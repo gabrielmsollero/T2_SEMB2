@@ -1,0 +1,331 @@
+[
+    {
+        "id": "e7dae499e32c48c6",
+        "type": "tab",
+        "label": "T2_SEMB2_Cloud",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "0e098fddc8808847",
+        "type": "http in",
+        "z": "e7dae499e32c48c6",
+        "name": "Get Irrigator Status Req",
+        "url": "/irrigator",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 200,
+        "y": 180,
+        "wires": [
+            [
+                "91e722578e60d354"
+            ]
+        ]
+    },
+    {
+        "id": "46f36cca5bfc12cf",
+        "type": "http in",
+        "z": "e7dae499e32c48c6",
+        "name": "Post Sensor Status",
+        "url": "/irrigator",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 210,
+        "y": 220,
+        "wires": [
+            [
+                "b7fad633241f3c82"
+            ]
+        ]
+    },
+    {
+        "id": "b7fad633241f3c82",
+        "type": "function",
+        "z": "e7dae499e32c48c6",
+        "name": "Update Sensor Data",
+        "func": "// check for sensor id\nflow.set('sensorStatus', msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 220,
+        "wires": [
+            [
+                "35b29d8141f73e71"
+            ]
+        ]
+    },
+    {
+        "id": "35b29d8141f73e71",
+        "type": "http response",
+        "z": "e7dae499e32c48c6",
+        "name": "Respond to Irrigator",
+        "statusCode": "200",
+        "headers": {},
+        "x": 740,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "290f419d7a6e7916",
+        "type": "comment",
+        "z": "e7dae499e32c48c6",
+        "name": "Cloud <-> Irrigator Interface",
+        "info": "",
+        "x": 460,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "5642a6b5b86abd82",
+        "type": "comment",
+        "z": "e7dae499e32c48c6",
+        "name": "Cloud <-> User Interface",
+        "info": "",
+        "x": 450,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "91e722578e60d354",
+        "type": "function",
+        "z": "e7dae499e32c48c6",
+        "name": "Get Last Command From User",
+        "func": "// check for sensor id\nmsg.payload = flow.get('irrigatorCommand');\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 180,
+        "wires": [
+            [
+                "35b29d8141f73e71"
+            ]
+        ]
+    },
+    {
+        "id": "0c62c4178d0b495b",
+        "type": "http in",
+        "z": "e7dae499e32c48c6",
+        "name": "Get Sensor Data",
+        "url": "/user",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 200,
+        "y": 380,
+        "wires": [
+            [
+                "ecb3cb08db55b063"
+            ]
+        ]
+    },
+    {
+        "id": "b86cf9e6d24ebed3",
+        "type": "http in",
+        "z": "e7dae499e32c48c6",
+        "name": "Post Irrigator Status Req",
+        "url": "/user",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 420,
+        "wires": [
+            [
+                "048bc314adef464d"
+            ]
+        ]
+    },
+    {
+        "id": "048bc314adef464d",
+        "type": "function",
+        "z": "e7dae499e32c48c6",
+        "name": "Update Irrigator Status Command",
+        "func": "// check for sensor id\nflow.set('irrigatorCommand', parseInt(msg.payload));\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 420,
+        "wires": [
+            [
+                "ecdf45dc799cdd4c"
+            ]
+        ]
+    },
+    {
+        "id": "ecb3cb08db55b063",
+        "type": "function",
+        "z": "e7dae499e32c48c6",
+        "name": "Get Sensor Data",
+        "func": "// check for sensor id\nmsg.payload = parseInt(flow.get('sensorStatus'));\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 380,
+        "wires": [
+            [
+                "ecdf45dc799cdd4c"
+            ]
+        ]
+    },
+    {
+        "id": "ecdf45dc799cdd4c",
+        "type": "http response",
+        "z": "e7dae499e32c48c6",
+        "name": "Respond to User",
+        "statusCode": "200",
+        "headers": {},
+        "x": 730,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "2258aa58a707a108",
+        "type": "inject",
+        "z": "e7dae499e32c48c6",
+        "name": "Set Initial Values Trigger",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 230,
+        "y": 60,
+        "wires": [
+            [
+                "afa0d3b79d910f91"
+            ]
+        ]
+    },
+    {
+        "id": "afa0d3b79d910f91",
+        "type": "change",
+        "z": "e7dae499e32c48c6",
+        "name": "Set Initial Values",
+        "rules": [
+            {
+                "t": "set",
+                "p": "sensorStatus",
+                "pt": "flow",
+                "to": "0",
+                "tot": "num"
+            },
+            {
+                "t": "set",
+                "p": "irrigatorCommand",
+                "pt": "flow",
+                "to": "0",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 460,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cb46805390534597",
+        "type": "inject",
+        "z": "e7dae499e32c48c6",
+        "d": true,
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 870,
+        "y": 60,
+        "wires": [
+            [
+                "3f0f529187063e68"
+            ]
+        ]
+    },
+    {
+        "id": "c30e273c381bee5d",
+        "type": "inject",
+        "z": "e7dae499e32c48c6",
+        "d": true,
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 870,
+        "y": 100,
+        "wires": [
+            [
+                "3f0f529187063e68"
+            ]
+        ]
+    },
+    {
+        "id": "3f0f529187063e68",
+        "type": "change",
+        "z": "e7dae499e32c48c6",
+        "d": true,
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "sensorStatus",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1060,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    }
+]
